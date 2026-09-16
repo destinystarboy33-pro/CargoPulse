@@ -40,7 +40,7 @@ const VerifyCode = () => {
 
     try {
       await axios.post(
-        "http://localhost:8000/api/auth/verify-reset-code",
+        "https://cargopulse.onrender.com/api/auth/verify-reset-code",
         {
           email,
           code,
@@ -83,7 +83,7 @@ const VerifyCode = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/auth/forgot-password",
+        "https://cargopulse.onrender.com/api/auth/forgot-password",
         {
           email,
         }

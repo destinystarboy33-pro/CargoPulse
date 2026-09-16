@@ -67,7 +67,7 @@ const CreateShipment = () => {
       };
 
       const response = await axios.post(
-        "http://localhost:8000/api/shipments",
+        "https://cargopulse.onrender.com/api/shipments",
         shipmentData,
         {
           headers: {

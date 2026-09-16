@@ -17,7 +17,7 @@ const ForgotPassword = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/auth/forgot-password",
+        "https://cargopulse.onrender.com/api/auth/forgot-password",
         {
           email,
         }

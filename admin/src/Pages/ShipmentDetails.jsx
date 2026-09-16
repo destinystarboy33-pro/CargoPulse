@@ -31,7 +31,7 @@ const ShipmentDetails = () => {
     const fetchShipment = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8000/api/shipments/${id}`,
+          `https://cargopulse.onrender.com/api/shipments/${id}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

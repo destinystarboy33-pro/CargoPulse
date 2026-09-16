@@ -45,7 +45,7 @@ const ResetPassword = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:8000/api/auth/reset-password",
+        "https://cargopulse.onrender.com/api/auth/reset-password",
         {
           email,
           code,

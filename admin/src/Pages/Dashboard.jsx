@@ -39,7 +39,7 @@ const Dashboard = () => {
     const loadShipments = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/shipments",
+          "https://cargopulse.onrender.com/api/shipments",
           {
             headers: {
               Authorization: `Bearer ${token}`,

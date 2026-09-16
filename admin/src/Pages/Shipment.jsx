@@ -35,7 +35,7 @@ const Shipments = () => {
     const loadShipments = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/api/shipments",
+          "https://cargopulse.onrender.com/api/shipments",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -97,7 +97,7 @@ const Shipments = () => {
 
     try {
       await axios.delete(
-        `http://localhost:8000/api/shipments/${id}`,
+        `https://cargopulse.onrender.com/api/shipments/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -12,7 +12,7 @@ import {
 
 import TrackingMap from "../Components/TrackingMap";
 
-const API_URL = "http://localhost:8000/api/shipments";
+const API_URL = "https://cargopulse.onrender.com/api/shipments";
 
 const TrackShipment = () => {
   const [trackingNumber, setTrackingNumber] = useState("");
