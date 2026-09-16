@@ -10,7 +10,7 @@ import authRoutes from "./routes/AuthRoute.js"
 
 const app = express();
 
-const alowedOrigin = ["http://localhost:5173", "http://localhost:5174"]
+const alowedOrigin = ["http://localhost:5173", "http://localhost:5174", "https://cargo-pulse-gamma.vercel.app"]
 
 // Middleware
 app.use(cors({origin: alowedOrigin,}));
