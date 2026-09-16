@@ -6,7 +6,7 @@ import Register from "./Pages/Register";
 import ForgotPassword from "./Pages/ForgotPassword";
 import VerifyCode from "./Pages/VerifyCode";
 import ResetPassword from "./Pages/ResetPassword";
-import Dashboard from "./Pages/DashBoard";
+import Dashboard from "./Pages/Dashboard";
 import ProtectedRoute from "./components/ProtectRoute";
 import Shipments from "./Pages/Shipment";
 import CreateShipment from "./Pages/CreateShipment";
