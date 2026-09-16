@@ -6,7 +6,7 @@ import {
   forgotPassword,
   verifyResetCode,
   resetPassword,
-} from "../controllers/authController.js";
+} from "../controllers/AuthController.js";
 
 const router = express.Router();
 
