@@ -8,10 +8,15 @@ import Truck from '../assets/Trucks.jpg'
 import Award1 from '../assets/Award1.jpg'
 import Award2 from '../assets/Award2.jpg'
 import Award3 from '../assets/Award3.jpg'
+import { Car, Sailboat,  } from 'lucide-react'
+import Reveal from '../Components/Reveal'
+// import { FaCableCar, } from 'react-icons/fa6'
 
 const About = () => {
   return (
     <div className="w-full bg-white overflow-hidden">
+
+        <Reveal>
 
       {/* ================= HERO ================= */}
       <section
@@ -36,8 +41,10 @@ const About = () => {
           </div>
         </div>
       </section>
+      </Reveal>
 
 
+        <Reveal>
       {/* ================= COMPANY INTRO ================= */}
       <section className="w-full bg-white py-16 md:py-20">
         <div className="max-w-6xl mx-auto px-5 md:px-8">
@@ -65,7 +72,7 @@ const About = () => {
                 </p>
 
                 <p>
-                  In addition, The Mona is investing to care for its future
+                  In addition, The Cargo Pulse is investing to care for its future
                   logistics demands and developing new services and products
                   to provide customers with world-class solutions.
                 </p>
@@ -106,8 +113,9 @@ const About = () => {
 
         </div>
       </section>
+      </Reveal>
 
-
+        <Reveal>
       {/* ================= WHY PEOPLE CHOOSE US ================= */}
       <section className="relative w-full py-16 md:py-24 ">
 
@@ -182,9 +190,11 @@ const About = () => {
 
         </div>
       </section>
+    </Reveal>
 
 
       {/* ================= INTERNATIONAL SHIPPING ================= */}
+      <Reveal>
       <section
         className="relative w-full py-16 md:py-24 bg-white"
         style={{
@@ -241,7 +251,8 @@ const About = () => {
             {/* ORANGE */}
             <div className="bg-orange-500 rounded-md 42 flex flex-col items-center justify-center text-white">
               <div className="text-3xl mb-4">
-                🚚
+                <Car /> 
+              
               </div>
 
               <h3 className="text-sm md:text-base font-medium">
@@ -257,7 +268,7 @@ const About = () => {
             {/* BLUE */}
             <div className="bg-blue-600 rounded-md h-42 flex flex-col items-center justify-center text-white">
               <div className="text-3xl mb-4">
-                🚢
+                <Sailboat />
               </div>
 
               <h3 className="text-sm md:text-base font-medium">
@@ -290,9 +301,11 @@ const About = () => {
         </div>
 
       </section>
+      </Reveal>
 
 
       {/* ================= VALUE ================= */}
+      <Reveal>
       <section className="relative w-full py-16 md:py-24 bg-white">
 
         <div className="max-w-6xl mx-auto px-5 md:px-8">
@@ -407,9 +420,11 @@ const About = () => {
         </div>
 
       </section>
+      </Reveal>
 
 
       {/* ================= AWARDS ================= */}
+      <Reveal>
       <section className="relative w-full bg-gray-100 py-16 md:py-20">
 
         <div className="max-w-6xl mx-auto px-5 md:px-8">
@@ -509,7 +524,7 @@ const About = () => {
         </div>
 
       </section>
-
+      </Reveal>
     </div>
   );
 };

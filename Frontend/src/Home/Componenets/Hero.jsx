@@ -1,4 +1,5 @@
 import heroImage from '../../assets/images.jpg'
+import { NavLink } from 'react-router-dom';
 const Hero = () => {
   return (
     <section className="relative w-full min-h-162 flex items-center">
@@ -38,13 +39,17 @@ const Hero = () => {
 
           <div className="flex flex-wrap gap-4">
 
-            <button className="bg-orange-500 hover:bg-orange-600 text-white px-7 py-3 rounded-full font-medium transition">
+            <NavLink to={"/contact"}>
+            <button className="bg-orange-500 hover:bg-orange-600 text-white px-7 py-3 rounded-full font-medium transition cursor-pointer">
               Get Started
             </button>
+            </NavLink>
 
-            <button className="border border-white text-white hover:bg-white hover:text-gray-800 px-7 py-3 rounded-full font-medium transition">
+            <NavLink to={"/about"}>
+            <button className="border border-white text-white hover:bg-white hover:text-gray-800 px-7 py-3 rounded-full font-medium transition cursor-pointer">
               Learn More
             </button>
+            </NavLink>
 
           </div>
 

@@ -1,4 +1,7 @@
 import { NavLink } from "react-router-dom";
+import {FaWhatsapp, FaEnvelope, FaPhone, } from "react-icons/fa"
+import {FaLocationDot} from "react-icons/fa6"
+
 
 const Footer = () => {
   return (
@@ -150,15 +153,15 @@ const Footer = () => {
             <ul className="space-y-4 text-sm">
 
               <li className="flex gap-3">
-                <span className="text-orange-500">📍</span>
+                <span className="text-red-600"><FaLocationDot size={18} /></span>
 
                 <span className="text-gray-400">
-                  Lagos, Nigeria
+                  Guangdong, China
                 </span>
               </li>
 
               <li className="flex gap-3">
-                <span className="text-orange-500">📞</span>
+                <span className="text-green-600"><FaPhone size={18} /></span>
 
                 <span className="text-gray-400">
                   +234 800 000 0000
@@ -166,10 +169,13 @@ const Footer = () => {
               </li>
 
               <li className="flex gap-3">
-                <span className="text-orange-500">✉</span>
+                <span className="text-white">< FaEnvelope size={18} /> {
+                   
+                }</span>
+                
 
                 <span className="text-gray-400">
-                  info@cargopulse.com
+                  <a href="mailto:cargopulsefrieght@gmail.com?subject=Customer%20support">CargoPulse@gmail.com</a>
                 </span>
               </li>
 
@@ -180,10 +186,10 @@ const Footer = () => {
             <div className="flex gap-3 mt-6">
 
               <a
-                href="#"
-                className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-orange-500 transition"
+                href="https://wa.me/2349075137529"
+                className="w-9 h-9 rounded-full text-green-600 bg-white/10 flex items-center justify-center hover:bg-orange-500 transition"
               >
-                f
+                <FaWhatsapp size={24} />
               </a>
 
               <a
@@ -200,12 +206,12 @@ const Footer = () => {
                 in
               </a>
 
-              <a
+              {/* <a
                 href="#"
                 className="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-orange-500 transition"
               >
                 ◎
-              </a>
+              </a> */}
 
             </div>
 

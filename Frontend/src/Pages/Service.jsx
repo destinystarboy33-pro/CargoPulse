@@ -3,6 +3,7 @@ import Airplane2 from '../assets/Airplane2.jpeg'
 import Train from '../assets/Train.jpg'
 import Road from '../assets/Road.jpg'
 import Seacargo from '../assets/Seacargo.jpeg'
+import Reveal from '../Components/Reveal'
 
 import {
   Globe2,
@@ -17,6 +18,7 @@ import {
   FileText,
   
 } from "lucide-react";
+import { NavLink } from 'react-router-dom'
 
 const Services = () => {
   const topServices = [
@@ -70,6 +72,7 @@ const Services = () => {
       {/* =====================================================
           HERO
       ===================================================== */}
+      <Reveal>
       <section
         className="relative h-65 md:h-82 bg-cover bg-center"
         style={{
@@ -86,7 +89,10 @@ const Services = () => {
             </h1>
 
             <div className="hidden sm:flex items-center text-sm text-white">
-              <span>Home</span>
+                <NavLink to="/">
+
+              <span className=' cursor-pointer'>Home</span>
+                </NavLink>
               <span className="mx-2 text-xl">→</span>
               <span className="text-orange-400">
                 Service
@@ -96,11 +102,13 @@ const Services = () => {
           </div>
         </div>
       </section>
+      </Reveal>
 
 
       {/* =====================================================
           OUR SERVICE
       ===================================================== */}
+       <Reveal>
       <section
         className="relative py-10 md:py-12 bg-cover bg-center"
         style={{
@@ -147,11 +155,13 @@ const Services = () => {
 
         </div>
       </section>
+      </Reveal>
 
 
       {/* =====================================================
           STATISTICS
       ===================================================== */}
+        <Reveal>
       <section className="relative bg-[#4a4a4a] text-white">
 
         <div className="absolute inset-0 bg-black/10" />
@@ -186,9 +196,12 @@ const Services = () => {
                   and responsibility.
                 </p>
 
-                <button className="mt-4 bg-[#2868a5] px-5 py-2 text-[11px]">
+                <NavLink to={'/contact'}>
+
+                <button className="mt-4 bg-[#2868a5] px-5 py-2 text-[11px] cursor-pointer rounded-full">
                   Contact now
                 </button>
+                </NavLink>
 
               </div>
 
@@ -201,11 +214,11 @@ const Services = () => {
                   <div>
                     <div className="flex justify-between text-[11px] mb-1">
                       <span>Goods from the sea</span>
-                      <span>75%</span>
+                      <span>90%</span>
                     </div>
 
                     <div className="h-3 bg-gray-600">
-                      <div className="h-full w-[75%] bg-orange-400" />
+                      <div className="h-full w-[90%] bg-orange-400" />
                     </div>
                   </div>
 
@@ -233,6 +246,19 @@ const Services = () => {
                     </div>
                   </div>
 
+
+
+                   <div>
+                    <div className="flex justify-between text-[11px] mb-1">
+                      <span>Goods from Rail Station</span>
+                      <span>60%</span>
+                    </div>
+
+                    <div className="h-3 bg-gray-600">
+                      <div className="h-full w-[60%] bg-orange-400" />
+                    </div>
+                  </div>
+
                 </div>
 
 
@@ -250,7 +276,7 @@ const Services = () => {
 
                     <p className="text-[9px] text-gray-300 mt-3 px-3">
                       As the market leading delivery
-                      service company, The Mona
+                      service company, The Cargo Pulse
                       always strives to satisfy customers
                       for the best experience.
                     </p>
@@ -268,7 +294,7 @@ const Services = () => {
 
                     <p className="text-[9px] text-gray-300 mt-3 px-3">
                       As the market leading delivery
-                      service company, The Mona
+                      service company, The Cargo Pulse
                       always strives to satisfy customers
                       for the best experience.
                     </p>
@@ -286,7 +312,7 @@ const Services = () => {
 
                     <p className="text-[9px] text-gray-300 mt-3 px-3">
                       As the market leading delivery
-                      service company, The Mona
+                      service company, The Cargo Pulse
                       always strives to satisfy customers
                       for the best experience.
                     </p>
@@ -322,11 +348,13 @@ const Services = () => {
         />
 
       </section>
+      </Reveal>
 
 
       {/* =====================================================
           MAIN SERVICES CONTENT
       ===================================================== */}
+      <Reveal>
       <section className="py-16 md:py-20 bg-white">
 
         <div className="max-w-250 mx-auto px-5">
@@ -408,11 +436,22 @@ const Services = () => {
                     </span>
                   </div>
 
-                  <div className="flex gap-2">
-                    <Mail size={13} />
+                  <div >
+                    
 
                     <span>
-                      Contact@logistics.com
+                     <ul>
+                         <li className="flex gap-1">
+                                        <span className=" text-gray-500">< Mail size={18} /> {
+                                           
+                                        }</span>
+                                        
+                        
+                                        <span className="text-gray-500">
+                                          <a href="mailto:cargopulsefrieght@gmail.com?subject=Customer%20support">CargoPulse@gmail.com</a>
+                                        </span>
+                                      </li>
+                     </ul>
                     </span>
                   </div>
 
@@ -451,9 +490,12 @@ const Services = () => {
                     Business
                   </p>
 
-                  <button className="mt-4 bg-orange-400 text-white rounded-full px-5 py-2 text-xs">
+                <NavLink to="/contact">
+
+                  <button className="mt-4 bg-orange-400 text-white rounded-full px-5 py-2 text-xs cursor-pointer">
                     Contact Us
                   </button>
+                </NavLink>
 
                 </div>
 
@@ -638,6 +680,7 @@ const Services = () => {
         </div>
 
       </section>
+      </Reveal>
 
     </main>
   );

@@ -1,4 +1,5 @@
 import Values from '../../assets/Value.jpg'
+import Reveal from '../../Components/Reveal';
 
 const Value = () => {
   const values = [
@@ -43,6 +44,7 @@ const Value = () => {
 
   return (
     <section className="relative w-full py-20 overflow-hidden">
+        <Reveal>
 
       {/* Background Image */}
       <div className="absolute inset-0">
@@ -127,7 +129,7 @@ const Value = () => {
         </div>
 
       </div>
-
+        </Reveal>
     </section>
   );
 };

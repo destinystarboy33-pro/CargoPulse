@@ -1,5 +1,9 @@
 import { Autoplay, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import Woman1 from "../../assets/woman1.jpg"
+import Woman2 from "../../assets/woman2.jpg"
+import Man1 from "../../assets/man2.jpg"
+import Reveal from '../../Components/Reveal';
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -9,27 +13,28 @@ const Testimonials = () => {
     {
       name: "Tran Quoc Cuong",
       company: "Fashion Store",
-      image: "/images/client.jpg",
+      image: Woman1,
       text: "CargoPulse has made our transportation process much easier. Their service is reliable, their communication is excellent, and our shipments always arrive safely and on time.",
     },
 
     {
       name: "Michael James",
       company: "Global Trading",
-      image: "/images/client1.jpg",
+      image: Man1,
       text: "CargoPulse provides excellent logistics services. Our deliveries are handled professionally and arrive when expected.",
     },
 
     {
       name: "Sarah Williams",
       company: "Retail Company",
-      image: "/images/client2.jpg",
+      image:Woman2,
       text: "We have been very impressed with the reliability and professionalism of CargoPulse. They make shipping simple for our business.",
     },
   ];
 
   return (
     <section className="w-full bg-white py-20">
+        <Reveal>
 
       <div className="max-w-6xl mx-auto px-6">
 
@@ -126,7 +131,8 @@ const Testimonials = () => {
         </Swiper>
 
       </div>
-
+     
+     </Reveal>
     </section>
   );
 };

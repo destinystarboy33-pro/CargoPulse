@@ -5,6 +5,7 @@ import WareHouse from "../../assets/WareHouse.jpg";
 import Border from "../../assets/Border.jpg";
 import Sea from "../../assets/Sea.jpg";
 import Group from "../../assets/Group.jpg";
+import Reveal from '../../Components/Reveal';
 
 const Services = () => {
   const services = [
@@ -36,6 +37,7 @@ const Services = () => {
 
   return (
     <section className="w-full bg-white py-16">
+        <Reveal>
 
       <div className="w-full max-w-275 mx-auto px-5">
 
@@ -103,6 +105,7 @@ const Services = () => {
         </div>
 
       </div>
+      </Reveal>
 
     </section>
   );
