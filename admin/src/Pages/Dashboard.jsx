@@ -393,7 +393,7 @@ const Dashboard = () => {
 
               <button
                 onClick={() =>
-                  navigate("/shipments")
+                  navigate("/shipment") 
                 }
                 className="flex items-center gap-1 text-orange-500 font-medium text-sm hover:text-orange-600"
               >
