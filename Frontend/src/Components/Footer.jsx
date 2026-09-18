@@ -100,6 +100,16 @@ const Footer = () => {
                 </NavLink>
               </li>
 
+
+               <li>
+                <NavLink
+                  to="/pricing"
+                  className="text-gray-400 hover:text-orange-500 transition"
+                >
+                  Pricing
+                </NavLink>
+              </li>
+
             </ul>
 
           </div>

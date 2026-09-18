@@ -81,7 +81,7 @@ const CreateShipment = () => {
       );
 
       setTimeout(() => {
-        navigate("/shipments");
+        navigate("/shipment");
       }, 1200);
     } catch (error) {
       console.error(error);

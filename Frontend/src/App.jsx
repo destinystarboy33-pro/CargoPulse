@@ -6,6 +6,8 @@ import About from './Pages/About'
 import Services from './Pages/Service'
 import Tracking from './Pages/Tracking'
 import Contact from './Pages/Contact'
+import Pricing from './Pages/Pricing'
+import ScrollToTop from './Components/ScrollToTop'
 
 import './App.css'
 
@@ -15,6 +17,7 @@ function App() {
   return (
     <>
      <BrowserRouter>
+     <ScrollToTop />
      <Header />
      <Routes>
 
@@ -23,6 +26,7 @@ function App() {
       <Route path='/services' element={<Services />}></Route>
       <Route path='/contact' element={<Contact />}></Route>
       <Route path='/tracking' element={<Tracking />}></Route>
+      <Route path='/pricing' element={<Pricing />}></Route>
      </Routes>
 
     <Footer />
