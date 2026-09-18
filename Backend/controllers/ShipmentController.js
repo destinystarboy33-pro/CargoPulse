@@ -1,3 +1,6 @@
+// 
+
+
 import Shipment from "../models/ShipmentModel.js";
 import crypto from "crypto";
 
@@ -91,6 +94,7 @@ const reverseGeocode = async (lat, lng) => {
       address.village ||
       address.county ||
       address.state ||
+      address.country ||
       data.display_name ||
       ""
     );
@@ -105,7 +109,11 @@ const reverseGeocode = async (lat, lng) => {
 };
 
 // ======================================================
-// GET LAND / ROAD ROUTE
+// LAND / ROAD ROUTE
+// ======================================================
+// IMPORTANT:
+// This is your original OSRM road routing.
+// We are keeping it for land shipments.
 // ======================================================
 
 const getLandRouteCoordinates = async (
@@ -127,7 +135,7 @@ const getLandRouteCoordinates = async (
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error("Road routing service failed");
+    throw new Error("Routing service failed");
   }
 
   const data = await response.json();
@@ -138,7 +146,7 @@ const getLandRouteCoordinates = async (
     !data.routes.length
   ) {
     throw new Error(
-      "Could not calculate road route"
+      "Could not calculate route between the selected locations"
     );
   }
 
@@ -152,7 +160,7 @@ const getLandRouteCoordinates = async (
 };
 
 // ======================================================
-// GET AIR ROUTE
+// CREATE CURVED AIR ROUTE
 // ======================================================
 
 const getAirRouteCoordinates = (
@@ -161,105 +169,160 @@ const getAirRouteCoordinates = (
 ) => {
   const points = [];
 
-  const steps = 40;
+  const steps = 60;
+
+  const latDifference =
+    destinationCoordinates.lat -
+    originCoordinates.lat;
+
+  const lngDifference =
+    destinationCoordinates.lng -
+    originCoordinates.lng;
+
+  const distance = Math.sqrt(
+    latDifference * latDifference +
+      lngDifference * lngDifference
+  );
+
+  /*
+    Curve strength changes slightly depending
+    on distance.
+
+    This makes the aircraft route look more
+    natural than a perfectly straight line.
+  */
+
+  const curve =
+    Math.min(15, Math.max(4, distance * 0.12));
 
   for (let i = 0; i <= steps; i++) {
-    const progress = i / steps;
+    const t = i / steps;
 
-    const lat =
+    const baseLat =
       originCoordinates.lat +
-      (destinationCoordinates.lat -
-        originCoordinates.lat) *
-        progress;
+      latDifference * t;
 
-    const lng =
+    const baseLng =
       originCoordinates.lng +
-      (destinationCoordinates.lng -
-        originCoordinates.lng) *
-        progress;
+      lngDifference * t;
+
+    const curveAmount =
+      Math.sin(Math.PI * t) * curve;
+
+    /*
+      Offset perpendicular to the route.
+    */
+
+    const curvedLat =
+      baseLat -
+      (lngDifference / Math.max(distance, 1)) *
+        curveAmount;
+
+    const curvedLng =
+      baseLng +
+      (latDifference / Math.max(distance, 1)) *
+        curveAmount;
 
     points.push({
-      lat,
-      lng,
+      lat: curvedLat,
+      lng: curvedLng,
     });
   }
+
+  /*
+    Guarantee exact endpoints.
+  */
+
+  points[0] = {
+    lat: originCoordinates.lat,
+    lng: originCoordinates.lng,
+  };
+
+  points[points.length - 1] = {
+    lat: destinationCoordinates.lat,
+    lng: destinationCoordinates.lng,
+  };
 
   return points;
 };
 
 // ======================================================
-// GET SEA ROUTE
+// CREATE SEA ROUTE
 // ======================================================
 
 const getSeaRouteCoordinates = (
   originCoordinates,
   destinationCoordinates
 ) => {
-  const originLat = originCoordinates.lat;
-  const originLng = originCoordinates.lng;
-
-  const destinationLat = destinationCoordinates.lat;
-  const destinationLng = destinationCoordinates.lng;
-
-  /*
-    We create an ocean-oriented route using
-    intermediate waypoints.
-
-    This prevents the ship from simply following
-    a road route between the two locations.
-  */
-
-  const middleLat =
-    (originLat + destinationLat) / 2;
-
-  const middleLng =
-    (originLng + destinationLng) / 2;
-
-  const oceanOffset = 8;
-
-  const waypoint1 = {
-    lat: middleLat + oceanOffset,
-    lng: middleLng,
-  };
-
-  const waypoint2 = {
-    lat: middleLat,
-    lng: middleLng + oceanOffset,
-  };
-
   const points = [];
 
-  const waypoints = [
-    originCoordinates,
-    waypoint1,
-    waypoint2,
-    destinationCoordinates,
-  ];
+  const steps = 80;
 
-  for (let i = 0; i < waypoints.length - 1; i++) {
-    const start = waypoints[i];
-    const end = waypoints[i + 1];
+  const latDifference =
+    destinationCoordinates.lat -
+    originCoordinates.lat;
 
-    const steps = 15;
+  const lngDifference =
+    destinationCoordinates.lng -
+    originCoordinates.lng;
 
-    for (let j = 0; j < steps; j++) {
-      const progress = j / steps;
+  const distance = Math.sqrt(
+    latDifference * latDifference +
+      lngDifference * lngDifference
+  );
 
-      points.push({
-        lat:
-          start.lat +
-          (end.lat - start.lat) *
-            progress,
+  /*
+    A larger curve for sea routes makes the
+    route look like a shipping route instead
+    of a road.
+  */
 
-        lng:
-          start.lng +
-          (end.lng - start.lng) *
-            progress,
-      });
-    }
+  const curve =
+    Math.min(25, Math.max(6, distance * 0.18));
+
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+
+    const baseLat =
+      originCoordinates.lat +
+      latDifference * t;
+
+    const baseLng =
+      originCoordinates.lng +
+      lngDifference * t;
+
+    const curveAmount =
+      Math.sin(Math.PI * t) * curve;
+
+    const curvedLat =
+      baseLat -
+      (lngDifference / Math.max(distance, 1)) *
+        curveAmount;
+
+    const curvedLng =
+      baseLng +
+      (latDifference / Math.max(distance, 1)) *
+        curveAmount;
+
+    points.push({
+      lat: curvedLat,
+      lng: curvedLng,
+    });
   }
 
-  points.push(destinationCoordinates);
+  /*
+    Guarantee exact endpoints.
+  */
+
+  points[0] = {
+    lat: originCoordinates.lat,
+    lng: originCoordinates.lng,
+  };
+
+  points[points.length - 1] = {
+    lat: destinationCoordinates.lat,
+    lng: destinationCoordinates.lng,
+  };
 
   return points;
 };
@@ -276,10 +339,13 @@ const getRouteCoordinates = async (
   /*
     LAND
     ----
-    Use OSRM because vehicles travel on roads.
+    Keep actual road routing.
   */
 
-  if (transportType === "land") {
+  if (
+    transportType === "land" ||
+    transportType === "road"
+  ) {
     return await getLandRouteCoordinates(
       originCoordinates,
       destinationCoordinates
@@ -289,7 +355,7 @@ const getRouteCoordinates = async (
   /*
     AIR
     ---
-    Aircraft don't follow roads.
+    Don't use road routing.
   */
 
   if (transportType === "air") {
@@ -302,7 +368,7 @@ const getRouteCoordinates = async (
   /*
     SEA
     ---
-    Ships don't follow road routes.
+    Don't use road routing.
   */
 
   if (transportType === "sea") {
@@ -313,7 +379,7 @@ const getRouteCoordinates = async (
   }
 
   /*
-    Fallback
+    Fallback.
   */
 
   return [
@@ -338,9 +404,8 @@ const getPositionAlongRoute = (
   }
 
   /*
-    0%
-    ---
-    ALWAYS return the origin.
+    IMPORTANT:
+    0% must ALWAYS be the first coordinate.
   */
 
   if (Number(progress) <= 0) {
@@ -348,9 +413,8 @@ const getPositionAlongRoute = (
   }
 
   /*
-    100%
-    ----
-    ALWAYS return destination.
+    IMPORTANT:
+    100% must ALWAYS be the final coordinate.
   */
 
   if (Number(progress) >= 100) {
@@ -365,7 +429,7 @@ const getPositionAlongRoute = (
 
   const normalizedProgress = Math.max(
     0,
-    Math.min(100, Number(progress))
+    Math.min(100, Number(progress) || 0)
   );
 
   const position =
@@ -457,7 +521,7 @@ export const createShipment = async (
       await geocodeLocation(destination);
 
     // ==================================================
-    // GET ROUTE BASED ON TRANSPORT
+    // GET ROUTE
     // ==================================================
 
     let routeCoordinates = [];
@@ -474,6 +538,10 @@ export const createShipment = async (
         "Route calculation error:",
         routeError.message
       );
+
+      /*
+        Fallback only.
+      */
 
       routeCoordinates = [
         originCoordinates,
@@ -515,7 +583,7 @@ export const createShipment = async (
         routeCoordinates,
 
         /*
-          Shipment starts EXACTLY at origin.
+          ALWAYS start exactly at origin.
         */
 
         currentCoordinates: {
@@ -530,10 +598,6 @@ export const createShipment = async (
         progress: 0,
 
         estimatedDelivery,
-
-        /*
-          Current location starts as origin.
-        */
 
         currentLocation: origin,
 
@@ -700,26 +764,54 @@ export const updateShipment = async (
     shipment.progress = progress;
 
     // ==================================================
-    // MAKE SURE ROUTE EXISTS
+    // ROUTE
     // ==================================================
 
     let routeCoordinates =
       shipment.routeCoordinates || [];
 
     /*
-      Generate the correct type of route.
+      We only regenerate the route when necessary.
 
-      This is important for older shipments that
-      were created using the old road-only system.
+      This prevents every ordinary progress update
+      from unnecessarily rebuilding the route.
     */
+
+    const transportChanged =
+      req.body.transportType !== undefined;
+
+    const originChanged =
+      req.body.origin !== undefined;
+
+    const destinationChanged =
+      req.body.destination !== undefined;
 
     if (
       routeCoordinates.length < 2 ||
-      req.body.transportType ||
-      req.body.origin ||
-      req.body.destination
+      transportChanged ||
+      originChanged ||
+      destinationChanged
     ) {
       try {
+        /*
+          If origin/destination text was changed,
+          geocode the new locations first.
+        */
+
+        if (originChanged) {
+          shipment.originCoordinates =
+            await geocodeLocation(
+              shipment.origin
+            );
+        }
+
+        if (destinationChanged) {
+          shipment.destinationCoordinates =
+            await geocodeLocation(
+              shipment.destination
+            );
+        }
+
         routeCoordinates =
           await getRouteCoordinates(
             shipment.originCoordinates,
@@ -760,8 +852,10 @@ export const updateShipment = async (
     // ==================================================
 
     if (currentPosition) {
-      shipment.currentCoordinates =
-        currentPosition;
+      shipment.currentCoordinates = {
+        lat: currentPosition.lat,
+        lng: currentPosition.lng,
+      };
     }
 
     // ==================================================
@@ -781,10 +875,11 @@ export const updateShipment = async (
     // ==================================================
 
     /*
-      At 0%, don't reverse-geocode.
+      PENDING
+      -------
+      Never reverse-geocode.
 
-      We already know exactly where the shipment is:
-      the origin.
+      We KNOW the shipment is at its origin.
     */
 
     if (progress === 0) {
@@ -793,10 +888,11 @@ export const updateShipment = async (
     }
 
     /*
-      At 100%, don't reverse-geocode.
+      DELIVERED
+      ---------
+      Never reverse-geocode.
 
-      We already know exactly where the shipment is:
-      the destination.
+      We KNOW the shipment is at its destination.
     */
 
     else if (progress === 100) {
@@ -805,21 +901,66 @@ export const updateShipment = async (
     }
 
     /*
-      During transit, reverse-geocode the SAME
-      coordinates used by the vehicle marker.
+      LAND
+      ----
+      Reverse-geocode the SAME coordinates
+      used by the vehicle marker.
+
+      This keeps the location and marker synchronized.
     */
 
-    else if (currentPosition) {
-      const currentLocation =
-        await reverseGeocode(
-          currentPosition.lat,
-          currentPosition.lng
-        );
+    else if (
+      shipment.transportType === "land" ||
+      shipment.transportType === "road"
+    ) {
+      if (currentPosition) {
+        const currentLocation =
+          await reverseGeocode(
+            currentPosition.lat,
+            currentPosition.lng
+          );
 
-      if (currentLocation) {
-        shipment.currentLocation =
-          currentLocation;
+        if (currentLocation) {
+          shipment.currentLocation =
+            currentLocation;
+        }
       }
+    }
+
+    /*
+      SEA
+      ---
+      A reverse-geocoder can return a nearby
+      country even when the ship is actually
+      offshore.
+
+      So we DON'T pretend the ship is in that
+      country.
+
+      The coordinates on the map remain the
+      real source of position.
+    */
+
+    else if (
+      shipment.transportType === "sea"
+    ) {
+      shipment.currentLocation =
+        "At Sea";
+    }
+
+    /*
+      AIR
+      ---
+      Aircraft are not physically inside the
+      country returned by reverse geocoding
+      while crossing international airspace.
+    */
+
+    else if (
+      shipment.transportType === "air"
+    ) {
+      shipment.currentLocation =
+        "In Flight";
     }
 
     // ==================================================
