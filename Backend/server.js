@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import shipmentRoutes from "./routes/ShipmentRoute.js";
 import authRoutes from "./routes/AuthRoute.js"
+import contactRoute from "./routes/ContactRoute.js"
 
 // dotenv.config();
 
@@ -20,6 +21,7 @@ app.use(express.json());
 // Routes
 app.use("/api/shipments", shipmentRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/contact", contactRoute);
 
 
 // Test route
