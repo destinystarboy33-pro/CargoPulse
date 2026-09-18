@@ -1,25 +1,22 @@
 import Contact from "../models/ContactModel.js";
 import nodemailer from "nodemailer";
 
-// Email transporter
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
   },
+
+  // Prevent the email connection from hanging for too long
+  connectionTimeout: 10000,
+  greetingTimeout: 10000,
+  socketTimeout: 10000,
 });
 
-// Submit contact message
 export const createContact = async (req, res) => {
   try {
-    const {
-      name,
-      email,
-      phone,
-      subject,
-      message,
-    } = req.body;
+    const { name, email, phone, subject, message } = req.body;
 
     // Validate required fields
     if (!name || !email || !subject || !message) {
@@ -38,9 +35,9 @@ export const createContact = async (req, res) => {
       message,
     });
 
-    // Send email notification
-    try {
-      await transporter.sendMail({
+    // Send email notification in the background
+    transporter
+      .sendMail({
         from: process.env.EMAIL_USER,
         to: process.env.EMAIL_USER,
         replyTo: email,
@@ -54,8 +51,7 @@ export const createContact = async (req, res) => {
             </h2>
 
             <p>
-              Someone has submitted a new message through the CargoPulse
-              website.
+              Someone has submitted a new message through the CargoPulse website.
             </p>
 
             <hr />
@@ -92,19 +88,24 @@ export const createContact = async (req, res) => {
 
           </div>
         `,
+      })
+      .then(() => {
+        console.log("Contact email sent successfully ✅");
+      })
+      .catch((emailError) => {
+        console.error(
+          "Contact email notification failed:",
+          emailError.message
+        );
       });
-    } catch (emailError) {
-      console.error(
-        "Email notification failed:",
-        emailError.message
-      );
-    }
 
+    // Respond immediately after saving to MongoDB
     return res.status(201).json({
       success: true,
-      message: "Your message has been sent successfully",
+      message: "Your message has been received successfully.",
       contact,
     });
+
   } catch (error) {
     console.error("Create contact error:", error);
 
