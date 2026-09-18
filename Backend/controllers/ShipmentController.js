@@ -1,4 +1,5 @@
-import Shipment from "../models/ShipmentModel.js";
+import Shipment from "../models/ShipmentModel.js"; 
+import crypto from "crypto"
 
 
 // ======================================================
@@ -6,24 +7,23 @@ import Shipment from "../models/ShipmentModel.js";
 // ======================================================
 
 const generateTrackingNumber = async () => {
-  const year = new Date().getFullYear();
+  let trackingNumber;
+  let exists = true;
 
-  const lastShipment = await Shipment.findOne({
-    trackingNumber: { $regex: `^CP-${year}-` },
-  }).sort({ createdAt: -1 });
-
-  let nextNumber = 1;
-
-  if (lastShipment) {
-    const lastNumber = parseInt(
-      lastShipment.trackingNumber.split("-")[2],
-      10
+  while (exists) {
+    const randomNumber = crypto.randomInt(
+      1000000000,
+      10000000000
     );
 
-    nextNumber = lastNumber + 1;
+    trackingNumber = `CP-${randomNumber}`;
+
+    exists = await Shipment.exists({
+      trackingNumber,
+    });
   }
 
-  return `CP-${year}-${String(nextNumber).padStart(5, "0")}`;
+  return trackingNumber;
 };
 
 
