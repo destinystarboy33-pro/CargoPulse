@@ -125,7 +125,7 @@ const TrackShipment = () => {
             current status and location of your shipment.
           </p>
 
-          <p className="text-slate-300 max-w-2xl mx-auto mt-4">use this tracking number for testing<span className="font-bold text-2xl text-orange-500">CP-1354444886</span></p>
+          <p className="text-slate-300 max-w-2xl mx-auto mt-4">use this tracking number for testing<span className="font-bold text-2xl text-orange-500 ml-4">CP-1354444886</span></p>
 
 
           {/* SEARCH */}
