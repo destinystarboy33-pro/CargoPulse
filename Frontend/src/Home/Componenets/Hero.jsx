@@ -1,7 +1,10 @@
 import heroImage from '../../assets/images.jpg'
 import { NavLink } from 'react-router-dom';
+import Reveal from '../../Components/Reveal';
 const Hero = () => {
   return (
+    <>
+     <Reveal>
     <section className="relative w-full min-h-162 flex items-center">
 
       {/* Background Image */}
@@ -61,6 +64,8 @@ const Hero = () => {
       <div className="absolute bottom-0 left-0 w-full h-2 bg-orange-500"></div>
 
     </section>
+    </Reveal>
+    </>
   );
 };
 

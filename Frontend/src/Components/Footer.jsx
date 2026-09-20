@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import {FaWhatsapp, FaEnvelope, FaPhone, } from "react-icons/fa"
 import {FaLocationDot} from "react-icons/fa6"
+import logos from "../assets/logos.jpeg"
 
 
 const Footer = () => {
@@ -20,11 +21,7 @@ const Footer = () => {
               className="inline-flex items-center gap-3 mb-5"
             >
 
-              <div className="w-11 h-11 rounded-full bg-orange-500 flex items-center justify-center">
-                <span className="font-bold text-lg">
-                  CP
-                </span>
-              </div>
+             <img src={logos} alt="logo" className="w-10 h-10 rounded-lg flex items-center justify-center" />
 
               <div className="leading-tight">
                 <h2 className="text-xl font-bold">

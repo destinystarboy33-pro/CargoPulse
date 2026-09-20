@@ -1,5 +1,6 @@
 import Values from '../../assets/Value.jpg'
 import Reveal from '../../Components/Reveal';
+import logos from "../../assets/logos.jpeg"
 
 const Value = () => {
   const values = [
@@ -67,9 +68,9 @@ const Value = () => {
 
           <div className="flex justify-center mb-3">
             <img
-              src="/images/logo-icon.png"
+              src={logos}
               alt="CargoPulse"
-              className="w-10 h-10 object-contain"
+              className="w-10 h-10 object-contain rounded-lg"
             />
           </div>
 

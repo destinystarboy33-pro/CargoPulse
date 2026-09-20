@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import logos from "../assets/logos.jpeg"
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -40,11 +41,12 @@ const Header = () => {
           {/* ================= LOGO ================= */}
           <NavLink to="/" className="flex items-center gap-2">
             
-            <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
+            {/* <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
               <span className="text-white font-bold">
                 CP
               </span>
-            </div>
+            </div> */}
+            <img src={logos} alt="logo" className="w-10 h-10 rounded-lg flex items-center justify-center" />
 
             <div className="leading-tight">
               <h1 className="text-xl font-bold text-gray-800">

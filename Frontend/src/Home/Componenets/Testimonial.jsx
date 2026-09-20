@@ -4,6 +4,7 @@ import Woman1 from "../../assets/woman1.jpg"
 import Woman2 from "../../assets/woman2.jpg"
 import Man1 from "../../assets/man2.jpg"
 import Reveal from '../../Components/Reveal';
+import logos from "../../assets/logos.jpeg"
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -42,9 +43,9 @@ const Testimonials = () => {
         <div className="text-center mb-12">
 
           <img
-            src="/images/Group.jpg"
+            src={logos}
             alt="CargoPulse"
-            className="w-10 h-10 mx-auto mb-3 object-contain"
+            className="w-10 h-10 mx-auto mb-3 object-contain rounded-lg"
           />
 
           <h2 className="text-3xl md:text-4xl font-bold text-orange-500">

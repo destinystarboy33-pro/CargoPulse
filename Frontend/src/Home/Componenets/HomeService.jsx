@@ -4,8 +4,8 @@ import Chain from "../../assets/Chain.jpg";
 import WareHouse from "../../assets/WareHouse.jpg";
 import Border from "../../assets/Border.jpg";
 import Sea from "../../assets/Sea.jpg";
-import Group from "../../assets/Group.jpg";
 import Reveal from '../../Components/Reveal';
+import logos from "../../assets/logos.jpeg"
 
 const Services = () => {
   const services = [
@@ -45,9 +45,9 @@ const Services = () => {
         <div className="text-center mb-10">
 
           <img
-            src={Group}
+            src={logos}
             alt="CargoPulse"
-            className="w-10 h-10 mx-auto mb-3 object-contain"
+            className="w-10 h-10 mx-auto mb-3 object-contain rounded-lg"
           />
 
           <h2 className="text-3xl md:text-4xl font-bold text-orange-500">
@@ -87,7 +87,7 @@ const Services = () => {
                 />
               </div>
 
-              <h1 className="bg-orange-500">{service.title}</h1>
+              <h1 className="bg-orange-500 text-center text-white font-semibold  ml-2.5 mr-4.5">{service.title}</h1>
 
 
               {/* ORANGE TITLE */}
