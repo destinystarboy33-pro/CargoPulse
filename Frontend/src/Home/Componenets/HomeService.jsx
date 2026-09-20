@@ -82,7 +82,7 @@ const Services = () => {
                     block
                     w-full
                     h-full
-                    object-cover
+                    object-cover rounded-lg
                   "
                 />
               </div>
